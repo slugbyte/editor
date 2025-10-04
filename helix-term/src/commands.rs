@@ -416,6 +416,7 @@ impl MappableCommand {
         open_below, "Open new line below selection",
         open_above, "Open new line above selection",
         normal_mode, "Enter normal mode",
+        unruly_normal_mode_or_keep_primary_selection, "Enter normal mode (if not Normal) or Keep primary selection",
         select_mode, "Enter selection extend mode",
         exit_select_mode, "Exit selection mode",
         goto_definition, "Goto definition",
@@ -603,7 +604,7 @@ impl MappableCommand {
         goto_prev_tabstop, "Goto next snippet placeholder",
         rotate_selections_first, "Make the first selection your primary one",
         rotate_selections_last, "Make the last selection your primary one",
-    );
+    )    ;
 }
 
 impl fmt::Debug for MappableCommand {
@@ -5130,6 +5131,13 @@ fn keep_primary_selection(cx: &mut Context) {
 
     let range = doc.selection(view.id).primary();
     doc.set_selection(view.id, Selection::single(range.anchor, range.head));
+}
+
+fn unruly_normal_mode_or_keep_primary_selection(cx: &mut Context) {
+    if cx.editor.mode() == Mode::Normal {
+        return keep_primary_selection(cx);
+    }
+    return normal_mode(cx);
 }
 
 fn remove_primary_selection(cx: &mut Context) {

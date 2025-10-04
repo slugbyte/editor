@@ -1,5 +1,9 @@
 <div align="center">
 
+fix highlight bug https://github.com/helix-editor/tree-house/commit/d4a395aca82edc1a1c53036594662011a5f5bce2
+
+
+
 <h1>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="logo_dark.svg">
