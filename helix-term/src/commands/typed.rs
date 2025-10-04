@@ -2659,6 +2659,45 @@ fn move_buffer(cx: &mut compositor::Context, args: Args, event: PromptEvent) -> 
     }
     Ok(())
 }
+fn rename_buffer(
+    cx: &mut compositor::Context,
+    args: Args,
+    event: PromptEvent,
+) -> anyhow::Result<()> {
+    if event != PromptEvent::Validate {
+        return Ok(());
+    }
+
+    let doc = doc!(cx.editor);
+    let old_path = doc
+        .path()
+        .context("Scratch buffer cannot be renamed. Use :write instead")?
+        .clone();
+    let new_name = args.first().unwrap();
+
+    if new_name.is_empty() {
+        bail!("new name cannot be empty");
+    }
+
+    if new_name.contains("/") {
+        bail!("new name cannot contain /");
+    }
+
+    let mut new_path = old_path.clone();
+    new_path.set_file_name(new_name);
+
+    if new_path.exists() {
+        bail!(
+            "failed to rename: {} allready exists",
+            new_path.to_str().unwrap()
+        );
+    }
+
+    if let Err(err) = cx.editor.move_path(&old_path, new_path.as_ref()) {
+        bail!("Could not rename file: {err}");
+    }
+    Ok(())
+}
 
 fn yank_diagnostic(
     cx: &mut compositor::Context,
@@ -3727,6 +3766,17 @@ pub const TYPABLE_COMMAND_LIST: &[TypableCommand] = &[
         aliases: &["mv"],
         doc: "Move the current buffer and its corresponding file to a different path",
         fun: move_buffer,
+        completer: CommandCompleter::positional(&[completers::filename]),
+        signature: Signature {
+            positionals: (1, Some(1)),
+            ..Signature::DEFAULT
+        },
+    },
+    TypableCommand {
+        name: "rename",
+        aliases: &[],
+        doc: "Rename the current buffer",
+        fun: rename_buffer,
         completer: CommandCompleter::positional(&[completers::filename]),
         signature: Signature {
             positionals: (1, Some(1)),
