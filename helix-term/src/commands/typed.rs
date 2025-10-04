@@ -1,6 +1,8 @@
+use std::env;
 use std::fmt::Write;
 use std::io::BufReader;
 use std::ops::{self, Deref};
+use std::str::FromStr;
 
 use crate::job::Job;
 
@@ -2767,6 +2769,7 @@ fn move_buffer_impl(
     }
     Ok(())
 }
+
 fn rename_buffer(
     cx: &mut compositor::Context,
     args: Args,
@@ -2805,6 +2808,48 @@ fn rename_buffer(
         bail!("Could not rename file: {err}");
     }
     Ok(())
+}
+
+fn trash_buffer(
+    cx: &mut compositor::Context,
+    args: Args,
+    event: PromptEvent,
+) -> anyhow::Result<()> {
+    _ = args;
+    if event != PromptEvent::Validate {
+        return Ok(());
+    }
+
+    let doc = doc!(cx.editor);
+    let old_path = doc
+        .path()
+        .context("Scratch buffer cannot be removed.")?
+        .clone();
+
+    let now = chrono::Local::now();
+    let file_name = old_path.file_name().unwrap().to_str();
+
+    let mut trash_path = PathBuf::from_str(format!("{}/temp", env!("trash")).as_str()).unwrap();
+    trash_path.set_file_name(format!(
+        "trash_helix_{}__{}",
+        now.format("%Y%m%d%H%M%S"),
+        file_name.unwrap(),
+    ));
+
+    let cwd = env::current_dir().unwrap();
+    let old_path_relative = old_path.strip_prefix(&cwd).unwrap_or(&trash_path);
+
+    cx.editor.set_status(format!(
+        "trashed: {} -> $trash/{}",
+        old_path_relative.to_string_lossy(),
+        trash_path.file_name().unwrap().to_str().unwrap(),
+    ));
+
+    if let Err(err) = cx.editor.move_path(&old_path, trash_path.as_ref()) {
+        bail!("Could not move file to trash: {err}");
+    }
+
+    return buffer_close(cx, args, event);
 }
 
 fn yank_diagnostic(
@@ -3980,6 +4025,17 @@ pub const TYPABLE_COMMAND_LIST: &[TypableCommand] = &[
         completer: CommandCompleter::positional(&[completers::filename]),
         signature: Signature {
             positionals: (1, Some(1)),
+            ..Signature::DEFAULT
+        },
+    },
+    TypableCommand {
+        name: "trash",
+        aliases: &["delete"],
+        doc: "trash the current buffer",
+        fun: trash_buffer,
+        completer: CommandCompleter::positional(&[completers::filename]),
+        signature: Signature {
+            positionals: (0, Some(0)),
             ..Signature::DEFAULT
         },
     },

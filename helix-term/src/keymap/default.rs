@@ -48,6 +48,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
             "D" => goto_declaration,
             "y" => goto_type_definition,
             "r" => goto_reference,
+            "R" => select_references_to_symbol_under_cursor,
             "i" => goto_implementation,
             "t" => goto_window_top,
             "c" => goto_window_center,
@@ -175,7 +176,9 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         // "Q" => replay_macro,
 
         "&" => align_selections,
-        "_" => trim_selections,
+        "_" => goto_next_diag,
+        "-" => goto_prev_diag,
+        "$" => hover,
 
         "(" => rotate_selections_backward,
         ")" => rotate_selections_forward,
