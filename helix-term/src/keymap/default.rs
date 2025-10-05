@@ -23,7 +23,6 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "h" => find_next_char,
         "H" => find_prev_char,
 
-        "j" => goto_word,
         "r" => replace,
         "R" =>  repeat_last_motion,
         // "R" => replace_with_yanked,
@@ -43,7 +42,8 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "B" => move_prev_long_word_start,
         // "E" => move_next_long_word_end,
         "v" => select_mode,
-        "G" => goto_line,
+        // "G" => goto_line,
+        "G" => goto_word,
         "g" => { "Goto"
             "s" => goto_file_start,
             "e" => goto_last_line,
@@ -89,6 +89,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "S" => split_selection,
         ";" => collapse_selection,
         "tab" => flip_selections,
+        "S-tab" => reverse_selection_contents,
         // "A-o" | "A-up" => expand_selection,
         // "A-i" | "A-down" => shrink_selection,
         // "A-I" | "A-S-down" => select_all_children,
@@ -158,6 +159,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "p" => paste_after,
         // paste_all
         "P" => paste_before,
+        "C-p" => replace_with_yanked,
 
         "z" => record_macro,
         "Z" => replay_macro,
@@ -165,8 +167,8 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         ">" => indent,
         "<" => unindent,
         "=" => format_selections,
-        // "J" => join_selections,
-        // "A-J" => join_selections_space,
+        "j" => join_selections,
+        "J" => join_selections_space,
         // "K" => keep_selections,
         // "A-K" => remove_selections,
 
@@ -229,6 +231,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
 
          "}" => jump_forward, // tab == <C-i>
         "{" => jump_backward,
+        "C-m" =>  save_selection,
         // "C-s" => save_selection,
 
         "space" => { "Space"
@@ -358,14 +361,14 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
     let insert = keymap!({ "Insert mode"
         "esc" => normal_mode,
 
-        "C-u" => commit_undo_checkpoint,
+        // "C-u" => commit_undo_checkpoint,
         "C-x" => completion,
         "C-r" => insert_register,
 
         "C-backspace" => delete_word_backward,
         "C-del" => delete_word_forward,
-        "C-y" => kill_to_line_start,
-        "C-o" => kill_to_line_end,
+        "C-u" => kill_to_line_start,
+        "C-k" => kill_to_line_end,
         "backspace" | "S-backspace" => delete_char_backward,
         "del" => delete_char_forward,
         "ret" => insert_newline,
