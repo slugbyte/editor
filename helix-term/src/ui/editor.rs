@@ -699,10 +699,10 @@ impl EditorView {
             diagnostic.range.start <= cursor && diagnostic.range.end >= cursor
         });
 
-        let warning = theme.get("warning");
-        let error = theme.get("error");
-        let info = theme.get("info");
-        let hint = theme.get("hint");
+        let warning = theme.get("diagnostic.warning");
+        let error = theme.get("diagnostic.error");
+        let info = theme.get("diagnostic.info");
+        let hint = theme.get("diagnostic.hint");
 
         let mut lines = Vec::new();
         let background_style = theme.get("ui.background");

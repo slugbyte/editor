@@ -1,7 +1,6 @@
 # personl helix fork
-
-## custom commands
-* `:wa` -> will set status to a random emote (to visually see that a a write has occured)
+ ## custom commands
+* `:wa` -> will set **status** to *a* random emote (to visually see that a a write has occured)
 * `:rename` -> rename file in place
 * `:trash or :delete` -> move file to trash
 

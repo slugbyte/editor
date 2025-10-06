@@ -92,7 +92,7 @@
 (builtin_identifier) @function.builtin
 
 (call_expression
-  function: (identifier) @function)
+  function: (identifier) @function.call)
 
 (call_expression
   function: (field_expression

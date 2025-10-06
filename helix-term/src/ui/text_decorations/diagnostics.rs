@@ -25,11 +25,12 @@ struct Styles {
 
 impl Styles {
     fn new(theme: &Theme) -> Styles {
+        // unruly style changed to from theme.get(hint|info|warning|error -> diagnostic.*)
         Styles {
-            hint: theme.get("hint"),
-            info: theme.get("info"),
-            warning: theme.get("warning"),
-            error: theme.get("error"),
+            hint: theme.get("diagnostic.hint"),
+            info: theme.get("diagnostic.info"),
+            warning: theme.get("diagnostic.warning"),
+            error: theme.get("diagnostic.error"),
         }
     }
 
