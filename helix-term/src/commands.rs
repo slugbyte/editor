@@ -1531,6 +1531,10 @@ fn find_char_line_ending(
             Range::point(range.cursor(text)).put_cursor(text, pos, true)
         }
     });
+    {
+        // unruly added push_jump to find_char_line_ending
+        push_jump(view, doc);
+    }
     doc.set_selection(view.id, selection);
 }
 
@@ -1611,6 +1615,10 @@ fn find_char_impl<F, M: CharMatcher + Clone + Copy>(
             }
         })
     });
+    {
+        // unruly added push_jump to find_char_impl
+        push_jump(view, doc);
+    }
     doc.set_selection(view.id, selection);
 }
 
@@ -3878,6 +3886,10 @@ fn goto_last_modification(cx: &mut Context) {
             .selection(view.id)
             .clone()
             .transform(|range| range.put_cursor(text, pos, cx.editor.mode == Mode::Select));
+        {
+            // unruly added push_jump to goto_last_modification
+            push_jump(view, doc);
+        }
         doc.set_selection(view.id, selection);
     }
 }
@@ -3929,6 +3941,10 @@ fn goto_first_diag(cx: &mut Context) {
         Some(diag) => Selection::single(diag.range.start, diag.range.end),
         None => return,
     };
+    {
+        // unruly added push_jump to goto_first_diag
+        push_jump(view, doc)
+    }
     doc.set_selection(view.id, selection);
     view.diagnostics_handler
         .immediately_show_diagnostic(doc, view.id);
@@ -3936,6 +3952,10 @@ fn goto_first_diag(cx: &mut Context) {
 
 fn goto_last_diag(cx: &mut Context) {
     let (view, doc) = current!(cx.editor);
+    {
+        // unruly added push jump to goto_last_diag
+        push_jump(view, doc)
+    }
     let selection = match doc.diagnostics().last() {
         Some(diag) => Selection::single(diag.range.start, diag.range.end),
         None => return,
@@ -3963,6 +3983,10 @@ fn goto_next_diag(cx: &mut Context) {
             Some(diag) => Selection::single(diag.range.start, diag.range.end),
             None => return,
         };
+        {
+            // unruly added push_jump to goto_next_diag
+            push_jump(view, doc);
+        }
         doc.set_selection(view.id, selection);
         view.diagnostics_handler
             .immediately_show_diagnostic(doc, view.id);
@@ -3992,6 +4016,10 @@ fn goto_prev_diag(cx: &mut Context) {
             Some(diag) => Selection::single(diag.range.end, diag.range.start),
             None => return,
         };
+        {
+            // unruly added push_jump to goto_prev_diag
+            push_jump(view, doc);
+        }
         doc.set_selection(view.id, selection);
         view.diagnostics_handler
             .immediately_show_diagnostic(doc, view.id);
@@ -4010,6 +4038,7 @@ fn goto_last_change(cx: &mut Context) {
 fn goto_first_change_impl(cx: &mut Context, reverse: bool) {
     let editor = &mut cx.editor;
     let (view, doc) = current!(editor);
+
     if let Some(handle) = doc.diff_handle() {
         let hunk = {
             let diff = handle.load();
@@ -4022,6 +4051,10 @@ fn goto_first_change_impl(cx: &mut Context, reverse: bool) {
         };
         if hunk != Hunk::NONE {
             let range = hunk_range(hunk, doc.text().slice(..));
+            {
+                // unruly added push_jump to goto_first_change_impl
+                push_jump(view, doc);
+            }
             doc.set_selection(view.id, Selection::single(range.anchor, range.head));
         }
     }
@@ -4076,7 +4109,10 @@ fn goto_next_change_impl(cx: &mut Context, direction: Direction) {
                 new_range.with_direction(direction)
             }
         });
-
+        {
+            // unruly added push_jump to goto_next_change_impl
+            push_jump(view, doc)
+        }
         doc.set_selection(view.id, selection)
     };
     cx.editor.apply_motion(motion);
@@ -5841,7 +5877,10 @@ fn goto_ts_object_impl(cx: &mut Context, object: &'static str, direction: Direct
                     new_range.with_direction(direction)
                 }
             });
-
+            {
+                // unruly added push_jump to goto_ts_object_impl
+                push_jump(view, doc)
+            }
             doc.set_selection(view.id, selection);
         } else {
             editor.set_status("Syntax-tree is not available in current buffer");
@@ -6744,7 +6783,7 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
 
     let jump_label_limit = alphabet.len() * alphabet.len();
     let mut words = Vec::with_capacity(jump_label_limit);
-    let (view, doc) = current_ref!(cx.editor);
+    let (view, doc) = current!(cx.editor); // unruly changed current_ref! to current!
     let text = doc.text().slice(..);
 
     // This is not necessarily exact if there is virtual text like soft wrap.
@@ -6828,6 +6867,10 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
         if !changed {
             break;
         }
+    }
+    {
+        // unruly added push jump to jump_to_word
+        push_jump(view, doc)
     }
     jump_to_label(cx, words, behaviour)
 }

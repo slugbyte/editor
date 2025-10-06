@@ -98,6 +98,9 @@
   function: (field_expression
     member: (identifier) @function.method))
 
+; (method_declaration
+  ; name: (identifier) @function.method)
+
 (function_declaration
   name: (identifier) @function)
 
