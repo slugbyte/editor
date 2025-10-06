@@ -1,17 +1,19 @@
 # helix fork just for me
 
-## changes
+## my changes
+> you can grep for "unruly" and find comments where I made changes
 * I modified the keybinds everywhere to use the workman keyboard layout.
 * I tweaked what styles were being used for borders, diagnostic messages, and more
 * I tweeked some gutter symbols
 * I added my own theme lackluster
 * I added a function.call zig's highlight.scm
-* I make some custom commands (below)
+* I added push_jump to lots of commands
+* I make some custom commands (seen below)
 
 ## custom commands
 * `:wa` -> will set **status** to *a* random emote (to visually see that a a write has occured)
 * `:rename` -> rename file in place
-* `:trash or :delete` -> move file to trash
+* `:trash or :delete` -> move file to $trash/trash_(date)_(origional_name)
 
 ## issues to keep track of
 * [crash highlight on nested errors](https://github.com/helix-editor/helix/issues/13879)
