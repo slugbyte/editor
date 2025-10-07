@@ -1,6 +1,8 @@
 # helix-workman
 > A rediculously fun helix fork for the workman keyboard layout
 
+![a screenshot of helix with the lackluster theme](./screenshot.png)
+
 ## UNDER CONSTRUCTION
 * I'm still making tweeks so its not exactly stable yet.
 
