@@ -1,41 +1,38 @@
-# helix fork just for me
+# helix-workman
+> A rediculously fun helix fork for the workman keyboard layout
 
-## my changes
-> you can grep for "unruly" and find comments where I made changes
+## UNDER CONSTRUCTION
+* I'm still making tweeks so its not exactly stable yet.
+
+## About
+I made this for myself and it may not be for you. It's super opinionated, and changes some of the
+default helix behavior. That said I think its rediculously fun and if you use the workman layout,
+you may like it too. It pulls from ideas I have developed with a workman-layout neovim plugin I created
+called [unruly-worker.nvim](https://github.com/slugbyte/unruly-worker.nvim). When I first switched
+to helix I quickly found that lots of keymaps can not yet be configured without forking and directly
+moding the codebase. Once I made a few key map mods, I got a little more adventurous and added a few
+tweaks and features, and boom here we are. So far its been a really fun setup for me!
+
+## Version
+This is a 25.07.1 fork.
+
+## Installation
+[You will need to build from source.](https://docs.helix-editor.com/building-from-source.html)
+
+## Big Changes
+> You can grep for "unruly" and find comments where I made changes
 * I modified the keybinds everywhere to use the workman keyboard layout.
-* I tweaked what styles were being used for borders, diagnostic messages, and more
-* I tweeked some gutter symbols
-* I added my own theme lackluster
-* I added a function.call zig's highlight.scm
-* I added push_jump to lots of commands
-* I make some custom commands (seen below)
+* I added push_jump to lots of commands because I heavly use the jumplist.
+* I added some custom commands (seen below).
+* The default theme is my own `lackluser`, a delightful mostly monochrome colorscheme thats soft on the eyes.
 
-## custom commands
+## Custom Typed Commands
 * `:wa` -> will set **status** to *a* random emote (to visually see that a a write has occured)
 * `:rename` -> rename file in place
 * `:trash or :delete` -> move file to $trash/trash_(date)_(origional_name)
 
-## issues to keep track of
-* [crash highlight on nested errors](https://github.com/helix-editor/helix/issues/13879)
-  * the hotfix for this is just to have theme define everything
+#### Lil Changes
+* I tweeked some gutter symbols
+* I tweaked which styles were being used for borders, diagnostic messages, and more
+* I added a function.call zig's highlight.scm which let me highlight fn declarations and calls seperatly (for zig)
 
-## thinks i think should be fixed in upstream
-### fix what highlights are buing used 
- * picker/menu/prompt/other-component keybinds should be adjustable with the config
- * picker borders should use ui.window (its allways white no matter what right now)
- * diagnostics status and inline should allways use diagnostic.* not just (info/error/warning/hint)
- * gutter symbols should be configureable in the config
- * function call querys should be added to all the highlight.scm files [function query enhancement]
- * i wish that (till/find)_(next/prev)_char fns could be configured to never leave the current line
- * i wish that (till/find)_(next/prev)_char would auto add to jumplist
-
-### function query enhancement
-I think function qureys should be given a optional `.call` extension. This would allow theme designers to
-configure decleration and call/invocation seperatly. Adding `.call` would not break exiting themes, it would
-only give theme designers more controll.
-
-`function` - function decleration or call
-`function.call` - function call overwrite
-`function.method` - method decleration or call
-`function.method.call` - method call overwrite
-`function.builtin` - builting call (builtins cannot be defined)

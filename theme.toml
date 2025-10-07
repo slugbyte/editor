@@ -1,114 +1,154 @@
-attribute = "lilac"
-keyword = "almond"
-"keyword.directive" = "lilac" # -- preprocessor comments (#if in C)
-namespace = "lilac"
-punctuation = "lavender"
-"punctuation.delimiter" = "lavender"
-operator = "lilac"
-special = "honey"
-"variable.other.member" = "white"
-variable = "lavender"
-# variable = "almond" # TODO: metavariables only
-# "variable.parameter" = { fg = "lavender", modifiers = ["underlined"] }
-"variable.parameter" = { fg = "lavender" }
-"variable.builtin" = "mint"
-type = "white"
-"type.builtin" = "white" # TODO: distinguish?
-constructor = "lilac"
-function = "white"
-"function.macro" = "lilac"
-"function.builtin" = "white"
-tag = "almond"
-comment = "sirocco"
-constant = "white"
-"constant.builtin" = "white"
-string = "silver"
-"constant.numeric" = "chamois"
-"constant.character.escape" = "honey"
-# used for lifetimes
-label = "honey"
-tabstop = { modifiers = ["italic"], bg = "bossanova" }
+# lackluster theme
 
-"markup.heading" = "lilac"
-"markup.bold" = { modifiers = ["bold"] }
-"markup.italic" = { modifiers = ["italic"] }
-"markup.strikethrough" = { modifiers = ["crossed_out"] }
-"markup.link.url" = { fg = "silver", modifiers = ["underlined"] }
-"markup.link.text" = "almond"
-"markup.raw" = "almond"
+"ui.background" = {bg = "main_background"}
+"ui.background.separator" = {bg = "main_background", fg = "gray5"}
 
-"diff.plus" = "#35bf86"
-"diff.minus" = "#f22c86"
-"diff.delta" = "#6f44f0"
+"ui.cursor.normal" = {bg = "gray5", fg = "black"}
+"ui.cursor.select" = {bg = "gray5" , fg = "black"}
+"ui.cursor.insert" = {bg = "gray5", fg = "gray8"}
+"ui.cursor.primary.normal" = {bg = "gray8", fg = "black"}
+"ui.cursor.primary.insert" = {bg = "luster", fg = "black"}
+"ui.cursor.primary.select" = {bg = "blue", fg = "black"}
+"ui.cursor.match" = {bg = "gray3", fg = "gray7"}
+"ui.debug.breakpoint" = {fg = "blue"}
+"ui.debug.active" = {fg = "green"}
+"ui.gutter" = {}
+# "ui.gutter.selected" = {}
+"ui.linenr" = {fg = "gray4"}
+"ui.linenr.selected" = {fg = "gray7"}
+"ui.statusline" = {bg = "statusline", fg = "gray7"}
+"ui.statusline.inactive" = {bg = "gray1", fg = "gray4"}
+# "ui.statusline.normal" = {bg = "statusline", fg = "gray7"}
+"ui.statusline.insert" = {bg = "lack", fg = "gray9"}
+"ui.statusline.select" = {bg = "gray9", fg = "black"}
+# "ui.statusline.separator" = {bg = ""}
+"ui.popup" = {bg = "popup_background", fg = "gray6"} # doc popups
+"ui.popup.info" = {fg = "gray6"} # which key popups
+"ui.picker.header" = {fg = "gray4"}
+"ui.window" = {fg = "gray5"} # border lines seperating splits
 
-# TODO: differentiate doc comment
-# concat (ERROR) @error.syntax and "MISSING ;" selectors for errors
+"ui.help" = {bg = "popup_background", fg = "gray6"} # description box for commands
 
-"ui.background" = { bg = "midnight" }
-"ui.background.separator" = { fg = "comet" }
-"ui.linenr" = { fg = "comet" }
-"ui.linenr.selected" = { fg = "lilac" }
-"ui.statusline" = { fg = "lilac", bg = "revolver" }
-"ui.statusline.inactive" = { fg = "lavender", bg = "revolver" }
-"ui.popup" = { bg = "revolver" }
-"ui.window" = { fg = "bossanova" }
-"ui.help" = { bg = "#7958DC", fg = "#171452" }
-"ui.text" = { fg = "lavender" }
-"ui.text.focus" = { fg = "white" }
-"ui.text.inactive" = "sirocco"
-"ui.text.directory" = { fg = "lilac" }
-"ui.virtual" = { fg = "comet" }
-"ui.virtual.ruler" = { bg = "bossanova" }
-"ui.virtual.jump-label" = { fg = "apricot", modifiers = ["bold"] }
+"ui.text" = {fg = "gray8"}
+"ui.text.focus" = {bg = "gray3"} # selected picker text
+"ui.text.info" = {fg = "gray8"} 
+"ui.text.directory" = {fg = "gray6"}
+"ui.virtual.ruler" = {bg = "#171717"}
+# "ui.virtual.whitespace" = {}
+# "ui.virtual.indent-guide" = {}
+"ui.virtual.inlay-hint" = "gray4"
+"ui.virtual.inlay-hint.parameter" = "orange"
+"ui.virtual.inlay-hint.type" = "red"
+"ui.virtual.wrap" = {fg = "gray4"}
+"ui.highlight" = {bg = "gray3"}
+# "ui.highlight.frameline" = {}
+"ui.cursorline.primary" = {bg = "#171717"}
+"ui.cursorline.secondary" = {bg = "#171717"}
+"ui.cursorcolumn.primary" = {bg = "#171717"}
+"ui.cursorcolumn.secondary" = {bg = "#171717"}
+"ui.menu" = {bg = "popup_background", fg = "gray6"}
+"ui.menu.selected" = {bg = "gray8", fg = "black"}
+"ui.menu.scroll" = {bg = "gray3", fg = "gray4"}
 
-"ui.virtual.indent-guide" = { fg = "comet" }
+"ui.selection" = {bg = "#2f2f2f"}
+"ui.selection.primary" = {bg = "#2f2f2f"}
 
-"ui.selection" = { bg = "#540099" }
-"ui.selection.primary" = { bg = "#540099" }
-# TODO: namespace ui.cursor as ui.selection.cursor?
-"ui.cursor.select" = { bg = "delta" }
-"ui.cursor.insert" = { bg = "white" }
-"ui.cursor.primary.select" = { bg = "delta" }
-"ui.cursor.primary.insert" = { bg = "white" }
-"ui.cursor.match" = { fg = "#212121", bg = "#6C6999" }
-"ui.cursor" = { modifiers = ["reversed"] }
-"ui.cursorline.primary" = { bg = "bossanova" }
-"ui.highlight" = { bg = "bossanova" }
-"ui.highlight.frameline" = { bg = "#634450" }
-"ui.debug" = { fg = "#634450" }
-"ui.debug.breakpoint" = { fg = "apricot" }
-"ui.menu" = { fg = "lavender", bg = "revolver" }
-"ui.menu.selected" = { fg = "revolver", bg = "white" }
-"ui.menu.scroll" = { fg = "lavender", bg = "comet" }
+"tabstop" = {fg = "gray4"} # snippit 
 
-"diagnostic.hint" = { underline = { color = "silver", style = "curl" } }
-"diagnostic.info" = { underline = { color = "delta", style = "curl" } }
-"diagnostic.warning" = { underline = { color = "lightning", style = "curl" } }
-"diagnostic.error" = { underline = { color = "apricot", style = "curl" } }
-"diagnostic.unnecessary" = { modifiers = ["dim"] }
-"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+# gutter
+"warning" = {fg = "orange"}
+"error" = {fg = "red"}
+"info" = {fg = "gray4"}
+"hint" = {fg = "green"}
 
-warning = "lightning"
-error = "apricot"
-info = "delta"
-hint = "silver"
+"ui.virtual.jump-label" = {fg = "yellow"}
+"special" = {fg = "gray6b"}
+
+# editing area
+"diagnostic" = {fg = "gray4b"}
+"diagnostic.warning" = {fg = "gray4b", underline = {color = "gray4b", style = "line"}}
+"diagnostic.error" = {fg = "gray4b", underline = {color = "gray4b", style = "curl"}}
+"diagnostic.unnecessary" = {fg = "gray4b"} 
+"diagnostic.deprecated" = {fg = "gray4b", modifiers = ["crossed_out"]} 
+
+"tag" = {fg = "gray7"}
+
+
+"string" = {fg = "blue"} 
+"string.special" = "green"
+"constant.character.escape" = {fg = "gray6"}
+"comment" = "comment" 
+"variable" = {fg = "gray8"}
+"variable.parameter" = {fg = "gray8"}
+"variable.other.memeber" = {fg = "gray8"}
+"constant" = {fg = "gray7"}
+"function" = {fg = "luster"}
+"function.call" = {fg = "gray7"}
+"function.method" = {fg = "gray7"}
+# "function.method.call" = {fg = "gray7"}
+"function.builtin" = {fg = "gray5b"}
+"keyword" = {fg = "gray6b"}
+"keyword.control.return" = {fg = "gray6"}
+"keyword.control.exception" = {fg = "gray6"}
+"keyword.operator" = {fg = "gray6"}
+"keyword.storage.modifier" = {fg = "gray6"}
+"operator" = {fg = "gray6"}
+"punctuation" = {fg = "gray6"}
+"type" = {fg = "gray7"}
+"type.enum" = {fg = "gray7"}
+
+"diff" = {fg = "gray3"}
+"diff.plus" = {fg = "green"}
+"diff.minus" = {fg = "red"} 
+"diff.delta" = {fg = "blue"}
+"diff.delta.conflict" = {fg = "yellow"}
+"diff.plus.gutter" = {fg = "gray4"}
+"diff.minus.gutter" = {fg = "red", modifiers = ["dim"]}
+"diff.delta.gutter" = {fg = "gray4", modifiers = ["dim"]}
+
+"markup.heading" = {fg = "gray5"}
+"markup.heading.1" = {fg = "gray6"}
+"markup.list" = {fg = "gray4"}
+"markup.quote" = {fg = "gray5"}
+"markup.raw" = {fg = "lack"}
+"markup.raw.block" = {fg = "lack", modifiers = ["bold"]}
+"markup.link" = {fg = "blue"}
+"markup.link.url" = {fg = "green"}
+"markup.bold" = {modifiers = ["bold"]}
+"markup.italic" = {modifiers = ["italic"]}
+"markup.strikethrough" = {modifiers = ["crossed_out"]}
 
 [palette]
-white = "#ffffff"
-lilac = "#dbbfef"
-lavender = "#a4a0e8"
-comet = "#5a5977"
-bossanova = "#452859"
-midnight = "#3b224c"
-revolver = "#281733"
-
-silver = "#cccccc"
-sirocco = "#697C81"
-mint = "#9ff28f"
-almond = "#eccdba"
-chamois = "#E8DCA0"
-honey = "#efba5d"
-
-apricot = "#f47868"
-lightning = "#ffcd1c"
-delta = "#6F44F0"
+lack = "#708090"
+luster = "#deeeed"
+# orange = "#ffaa88"
+orange = "#ccaa88"
+yellow = "#abab77"
+green = "#789978"
+# blue = "#7788aa"
+blue = "#818f9e" 
+# blue_string = ""
+red = "#d70000"
+black = "#000000"
+gray1 = "#080808"
+gray2 = "#191919"
+gray3 = "#2a2a2a"
+gray4 = "#444444"
+gray4b = "#4c4c4c"
+gray5 = "#555555"
+gray5b = "#656565"
+gray6 = "#7a7a7a"
+# gray6b = "#9c9090"
+gray6b = "#9f9a9a"
+gray7 = "#aaaaaa"
+gray8 = "#cccccc"
+gray9 = "#dddddd"
+main_background = "#101010"
+menu_background = "#191919"
+popup_background = "#1a1a1a"
+statusline = "#242424"
+comment = "#454545"
+exception = "#505050"
+special_keyword = "#666666"
+param = "#8e8e8e"
+whitespace = "#202020"
