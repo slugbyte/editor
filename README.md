@@ -1,8 +1,10 @@
 # helix-workman
 > A rediculously fun helix fork for the workman keyboard layout
 
+![A screenshot of helix with the lackluster theme](./screenshot.png)
+
 ## UNDER CONSTRUCTION
-* I'm still making tweeks so its not exactly stable yet.
+I'm still making tweeks so its not exactly stable yet.
 
 ## About
 I made this for myself and it may not be for you. It's super opinionated, and changes some of the
@@ -35,4 +37,3 @@ This is a 25.07.1 fork.
 * I tweeked some gutter symbols
 * I tweaked which styles were being used for borders, diagnostic messages, and more
 * I added a function.call zig's highlight.scm which let me highlight fn declarations and calls seperatly (for zig)
-
