@@ -24,12 +24,12 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "H" => find_prev_char,
 
         "r" => replace,
-        "R" =>  repeat_last_motion,
+        "," =>  repeat_last_motion,
         // "R" => replace_with_yanked,
 
-        "~" => switch_case,
+        "'" => switch_case,
         "`" => switch_to_lowercase,
-        // "A-`" => switch_to_uppercase,
+        "\"" => switch_to_uppercase,
 
         // "home" => goto_line_start,
         // "end" => goto_line_end,
@@ -185,7 +185,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "&" => align_selections,
         "_" => goto_next_diag,
         "-" => goto_prev_diag,
-        "$" => hover,
+        "R" => hover,
 
         "(" => rotate_selections_backward,
         ")" => rotate_selections_forward,
@@ -199,6 +199,12 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         // "C-f" | "pagedown" => page_down,
         // "C-u" => page_cursor_half_up,
         // "C-d" => page_cursor_half_down,
+        "C-d" => goto_definition,
+        "C-r" => rename_symbol,
+        "C-m" =>  save_selection,
+        "C-j" => file_picker,
+        // "C-m" => wonly,
+        // "C-j" => file_picker,
 
         "C-w" => { "Window"
             "C-w" | "w" => rotate_view,
@@ -232,7 +238,6 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
 
          "}" => jump_forward, // tab == <C-i>
         "{" => jump_backward,
-        "C-m" =>  save_selection,
         // "C-s" => save_selection,
 
         "space" => { "Space"
@@ -271,8 +276,6 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
                 "E" => dap_disable_exceptions,
             },
             "/" => global_search,
-            "$" => hover,
-            // "r" => rename_symbol,
             "?" => command_palette,
         },
         "K" => { "Kopy"
@@ -284,8 +287,9 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
             "P" => paste_clipboard_before,
             "r" => replace_selections_with_clipboard,
        },
-        "@" => { "Align"
-            "@" | "c" | "m" => align_view_center,
+       "V" => align_view_top,
+        "$" => { "Align"
+            "$" | "c" | "m" => align_view_center,
             "t" => align_view_top,
             "b" => align_view_bottom,
             // "m" => align_view_middle,
@@ -308,7 +312,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
             "a" => shell_append_output,
             "k" => shell_keep_pipe,
         },
-        "\"" => select_register,
+        "@" => select_register,
         // "|" => shell_pipe,
         // "A-|" => shell_pipe_to,
         // "!" => shell_insert_output,

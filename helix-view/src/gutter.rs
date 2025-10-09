@@ -75,24 +75,7 @@ pub fn diagnostic<'doc>(
                         })
                 });
             diagnostics_on_line.max_by_key(|d| d.severity).map(|d| {
-                // 🬪
-                // 🬪
-                // 🬪
-                // 🬪
-                // 🬴
-                // 🬴
-                // 🬴
-                // █
-                // 🬛
-                // 🮖
-                // 🬳                write!(out, "k").ok();
-                // 🬳                write!(out, "k").ok();
-                // write!(out, "█").ok();
-                write!(out, "▎").ok();
-                // "▎"
-                // write!(out, "▂").ok();
-
-                // write!(out, "●").ok();
+                write!(out, "!").ok(); // unruly changed diagnostic gutter symbol from write!(out, "●").ok();
                 match d.severity {
                     Some(Severity::Error) => error,
                     Some(Severity::Warning) | None => warning,
@@ -137,14 +120,14 @@ pub fn diff<'doc>(
                 }
 
                 let (icon, style) = if hunk.is_pure_insertion() {
-                    ("▍", added)
+                    ("+", added) // unruly swithed diff plus icon // old == ("▍", modified)
                 } else if hunk.is_pure_removal() {
                     if !first_visual_line {
                         return None;
                     }
-                    ("▔", deleted)
+                    ("-", deleted) // unruly switched diif minus icon // old == ("▔", deleted)
                 } else {
-                    ("▍", modified)
+                    ("~", modified) // unruly switched diff mod icon // old == ("▍", modified)
                 };
 
                 write!(out, "{}", icon).unwrap();
@@ -281,7 +264,8 @@ pub fn breakpoints<'doc>(
                 breakpoint_style
             };
 
-            let sym = if breakpoint.verified { "●" } else { "◯" };
+            // let sym = if breakpoint.verified { "●" } else { "◯" };
+            let sym = if breakpoint.verified { "*" } else { "?" }; // unruly changed breakpint sympls let sym = if breakpoint.verified { "●" } else { "◯" };
             write!(out, "{}", sym).unwrap();
             Some(style)
         },
@@ -316,7 +300,7 @@ fn execution_pause_indicator<'doc>(
                 return None;
             }
 
-            let sym = "▶";
+            let sym = ">"; // unruly changed execution pause indicator from let sym = "▶";
             write!(out, "{}", sym).unwrap();
             Some(style)
         },

@@ -848,7 +848,7 @@ pub fn write_all_impl(
 
     // let mut rng = rand::rng();
     // let n: i32 = rng.random_range(0..100); // 0 through 9
-    cx.editor.set_status(format!("boom! {}", random_face()));
+    cx.editor.set_status(format!("{}", random_face()));
 
     Ok(())
 }
