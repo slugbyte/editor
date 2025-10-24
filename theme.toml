@@ -30,6 +30,7 @@
 "ui.help" = {bg = "popup_background", fg = "gray6"} # description box for commands
 
 "ui.text" = {fg = "gray8"}
+# "ui.text.inactive" = {"fg" = "red"}
 "ui.text.focus" = {bg = "gray3"} # selected picker text
 "ui.text.info" = {fg = "gray8"} 
 "ui.text.directory" = {fg = "gray6"}
@@ -61,7 +62,7 @@
 "info" = {fg = "gray4"}
 "hint" = {fg = "green"}
 
-"ui.virtual.jump-label" = {fg = "yellow"}
+"ui.virtual.jump-label" = {bg = "gray7", fg = "gray2"}
 "special" = {fg = "gray6b"}
 
 # editing area

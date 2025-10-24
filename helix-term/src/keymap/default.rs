@@ -75,11 +75,12 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "L" => open_above,
 
         "d" => delete_selection,
-        // "A-d" => delete_selection_noyank,
-        "c" => change_selection,
-        // "A-c" => change_selection_noyank,
+        "D" => delete_selection_noyank,
 
-        "C" => copy_selection_on_next_line,
+        "c" => change_selection_noyank,
+        "C" => change_selection,
+
+        "A-c" => copy_selection_on_next_line,
         // "A-C" => copy_selection_on_prev_line,
 
 
@@ -161,6 +162,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         // paste_all
         "P" => paste_before,
         "C-p" => replace_with_yanked,
+        "A-p" =>  paste_clipboard_after,
 
         "z" => record_macro,
         "Z" => replay_macro,
@@ -203,6 +205,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "C-r" => rename_symbol,
         "C-m" =>  save_selection,
         "C-j" => file_picker,
+        "A-j" => global_search,
         // "C-m" => wonly,
         // "C-j" => file_picker,
 
@@ -278,20 +281,21 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
             "/" => global_search,
             "?" => command_palette,
         },
+        "A-k" => yank_main_selection_to_clipboard,
         "K" => { "Kopy"
-            "d" => delete_selection_noyank,
-            "c" => change_selection_noyank,
-            "k" => yank_to_clipboard,
             "K" => yank_main_selection_to_clipboard,
+            "k" => yank_to_clipboard,
             "p" => paste_clipboard_after,
             "P" => paste_clipboard_before,
+            "d" => delete_selection_noyank,
+            "c" => change_selection_noyank,
             "r" => replace_selections_with_clipboard,
        },
        "V" => align_view_top,
         "$" => { "Align"
             "$" | "c" | "m" => align_view_center,
-            "t" => align_view_top,
-            "b" => align_view_bottom,
+            "@" | "t" => align_view_top,
+            "#" | "b" => align_view_bottom,
             // "m" => align_view_middle,
             // "pageup" => page_up,
             // "pagedown" => page_down,

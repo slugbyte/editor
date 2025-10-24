@@ -3,7 +3,7 @@
 
 ![A screenshot of helix with the lackluster theme](./screenshot.png)
 
-## UNDER CONSTRUCTION
+## CONSTRUCTION
 I'm still making tweeks so its not exactly stable yet.
 
 ## About
