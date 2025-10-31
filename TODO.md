@@ -28,6 +28,7 @@ only give theme designers more controll.
 `function.builtin` - builting call (builtins cannot be defined)
 
 ## issues to keep track of
+* [crash slice out of range i left backtrace on](https://github.com/helix-editor/helix/issues/13325)
 * [crash slice out of range](https://github.com/helix-editor/helix/issues/10497)
 * [crash highlight on nested errors](https://github.com/helix-editor/helix/issues/13879)
   * the hotfix for this is just to have theme define everything
