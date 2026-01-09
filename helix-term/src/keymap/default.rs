@@ -161,8 +161,8 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "p" => paste_after,
         // paste_all
         "P" => paste_before,
-        "C-p" => replace_with_yanked,
-        "A-p" =>  paste_clipboard_after,
+        "A-p" => replace_with_yanked,
+        "C-p" =>  paste_clipboard_after,
 
         "z" => record_macro,
         "Z" => replay_macro,
@@ -281,7 +281,10 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
             "/" => global_search,
             "?" => command_palette,
         },
-        "A-k" => yank_main_selection_to_clipboard,
+        "A-k" => yank_to_clipboard,
+        "C-k" => yank_main_selection_to_clipboard,
+        "C-ins" => yank_main_selection_to_clipboard,
+        "S-ins" => paste_clipboard_after,
         "K" => { "Kopy"
             "K" => yank_main_selection_to_clipboard,
             "k" => yank_to_clipboard,

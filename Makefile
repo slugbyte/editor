@@ -2,10 +2,17 @@ build:
 	cargo build
 	./target/debug/hx
 
-install:
+release:
 	cargo build --release
-	rm -rf ${exec}/share/helix/helix-custom
-	cp -r ${code}/helix/target/release ${exec}/share/helix/helix-custom
+
+install: release
+	rm -rf ${exec}/share/helix/helix-workman
+	cp -rf ${code}/editor/target/release ${exec}/share/helix/helix-workman
+	ln -sf ${exec}/share/helix/helix-workman/hx ${exec}/bin/hx
+
+sysinstall: release
+	sudo cp -f /home/slugbyte/workspace/code/editor/target/release/hx /usr/bin/hx
+	sudo chmod a+x /usr/bin/hx
 
 grammar:
 	hx --grammar fetch
