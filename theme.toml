@@ -1,3 +1,4 @@
+# NOTE: (slugbyte) this is a my custom default theme based on my old nvim theme (https://github.com/slugbyte/lackluster.nvim)
 # lackluster theme
 
 "ui.background" = {bg = "main_background"}

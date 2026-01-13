@@ -15,6 +15,15 @@ fn main() {
         .and_then(|x| String::from_utf8(x.stdout).ok())
         .or_else(|| option_env!("HELIX_NIX_BUILD_REV").map(|s| s.to_string()));
 
+    // NOTE: (slugbyte) added build_date
+    let build_date = Command::new("date")
+        .args(["+%Y-%m-%d %H:%M"])
+        .output()
+        .ok()
+        .filter(|output| output.status.success())
+        .and_then(|x| String::from_utf8(x.stdout).ok())
+        .map(|x| x.trim().to_string());
+
     let minor = if MINOR.len() == 1 {
         // Print single-digit months in '0M' format
         format!("0{MINOR}")
@@ -26,9 +35,11 @@ fn main() {
     } else {
         format!("{MAJOR}.{minor}.{PATCH}")
     };
-    let version: Cow<_> = match &git_hash {
-        Some(git_hash) => format!("{} ({})", calver, &git_hash[..8]).into(),
-        None => calver.into(),
+
+    let version: Cow<_> = match (&git_hash, &build_date) {
+        (Some(git_hash), Some(date)) => format!("{} ({}) {} :)", calver, &git_hash[..8], date).into(),
+        (Some(git_hash), None) => format!("{} ({})", calver, &git_hash[..8]).into(),
+        _ => calver.into(),
     };
 
     println!(

@@ -75,7 +75,7 @@ pub fn diagnostic<'doc>(
                         })
                 });
             diagnostics_on_line.max_by_key(|d| d.severity).map(|d| {
-                write!(out, "!").ok(); // unruly changed diagnostic gutter symbol from write!(out, "●").ok();
+                write!(out, "!").ok(); // NOTE: (slugbyte) changed diagnostic gutter symbol from write!(out, "●").ok();
                 match d.severity {
                     Some(Severity::Error) => error,
                     Some(Severity::Warning) | None => warning,
@@ -120,14 +120,14 @@ pub fn diff<'doc>(
                 }
 
                 let (icon, style) = if hunk.is_pure_insertion() {
-                    ("+", added) // unruly swithed diff plus icon // old == ("▍", modified)
+                    ("+", added) // NOTE: (slugbyte) swithed diff plus icon // old == ("▍", modified)
                 } else if hunk.is_pure_removal() {
                     if !first_visual_line {
                         return None;
                     }
-                    ("-", deleted) // unruly switched diif minus icon // old == ("▔", deleted)
+                    ("-", deleted) // NOTE: (slugbyte) switched diif minus icon // old == ("▔", deleted)
                 } else {
-                    ("~", modified) // unruly switched diff mod icon // old == ("▍", modified)
+                    ("~", modified) // NOTE: (slugbyte) switched diff mod icon // old == ("▍", modified)
                 };
 
                 write!(out, "{}", icon).unwrap();
@@ -265,7 +265,7 @@ pub fn breakpoints<'doc>(
             };
 
             // let sym = if breakpoint.verified { "●" } else { "◯" };
-            let sym = if breakpoint.verified { "*" } else { "?" }; // unruly changed breakpint sympls let sym = if breakpoint.verified { "●" } else { "◯" };
+            let sym = if breakpoint.verified { "*" } else { "?" }; // NOTE: (slugbyte) changed breakpint sympls let sym = if breakpoint.verified { "●" } else { "◯" };
             write!(out, "{}", sym).unwrap();
             Some(style)
         },
@@ -300,7 +300,7 @@ fn execution_pause_indicator<'doc>(
                 return None;
             }
 
-            let sym = ">"; // unruly changed execution pause indicator from let sym = "▶";
+            let sym = ">"; // NOTE: (slugbyte) changed execution pause indicator from let sym = "▶";
             write!(out, "{}", sym).unwrap();
             Some(style)
         },

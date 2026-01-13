@@ -49,12 +49,10 @@ async fn main_impl() -> Result<i32> {
     if args.display_help {
         print!(
             "\
-{} {}
-{}
-{}
+e {}
 
 USAGE:
-    hx [FLAGS] [files]...
+    e [FLAGS] [files]...
 
 ARGS:
     <files>...    Sets the input file to use, position can also be specified via file[:row[:col]]
@@ -76,17 +74,18 @@ FLAGS:
     -w, --working-dir <path>       Specify an initial working directory
     +N                             Open the first given file at line number N
 ",
-            env!("CARGO_PKG_NAME"),
+            // env!("CARGO_PKG_NAME"),
             VERSION_AND_GIT_HASH,
-            env!("CARGO_PKG_AUTHORS"),
-            env!("CARGO_PKG_DESCRIPTION"),
+            // env!("CARGO_PKG_AUTHORS"),
+            // env!("CARGO_PKG_DESCRIPTION"),
             helix_loader::default_log_file().display(),
         );
         std::process::exit(0);
     }
 
     if args.display_version {
-        println!("helix {}", VERSION_AND_GIT_HASH);
+        // NOTE: (slugbyte) changed this to editor + version_and_git_hash
+        println!("e {}", VERSION_AND_GIT_HASH);
         std::process::exit(0);
     }
 

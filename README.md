@@ -1,4 +1,4 @@
-# helix-workman
+# editor is a personal helix fork
 > A rediculously fun helix fork for the workman keyboard layout
 
 ![A screenshot of helix with the lackluster theme](./screenshot.png)
@@ -14,6 +14,7 @@ called [unruly-worker.nvim](https://github.com/slugbyte/unruly-worker.nvim). Whe
 to helix I quickly found that lots of keymaps can not yet be configured without forking and directly
 moding the codebase. Once I made a few key map mods, I got a little more adventurous and added a few
 tweaks and features, and boom here we are. So far its been a really fun setup for me!
+
 
 ## Version
 This is a 25.07.1 fork.
@@ -37,3 +38,6 @@ This is a 25.07.1 fork.
 * I tweeked some gutter symbols
 * I tweaked which styles were being used for borders, diagnostic messages, and more
 * I added a function.call zig's highlight.scm which let me highlight fn declarations and calls seperatly (for zig)
+
+###  FINDING CHANGES
+grep for slugbyte

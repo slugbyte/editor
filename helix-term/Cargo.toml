@@ -1,8 +1,8 @@
 [package]
 name = "helix-term"
-description = "A post-modern text editor."
+description = "slugbytes helix fork."
 include = ["src/**/*", "README.md"]
-default-run = "hx"
+default-run = "e"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -37,7 +37,7 @@ integration = ["helix-event/integration_test"]
 git = ["helix-vcs/git"]
 
 [[bin]]
-name = "hx"
+name = "e"
 path = "src/main.rs"
 
 [dependencies]

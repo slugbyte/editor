@@ -680,7 +680,7 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         let background = cx.editor.theme.get("ui.background");
         surface.clear_with(area, background);
 
-        // unruly fix this used to be just a const BLOCK but i wanted border_style to be ui.window (render_picker)
+        // NOTE: (slugbyte) this used to be just a const BLOCK but i wanted border_style to be ui.window (render_picker)
         let block: Block<'_> = Block::bordered();
         let block = block.border_style(cx.editor.theme.get("ui.window"));
 
@@ -871,7 +871,7 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         let directory = cx.editor.theme.get("ui.text.directory");
         surface.clear_with(area, background);
 
-        // unruly fix this used to be just a const BLOCK but i wanted border_style to be ui.window (picker_preview)
+        // NOTE: (slugbyte) fix this used to be just a const BLOCK but i wanted border_style to be ui.window (picker_preview)
         let block: Block<'_> = Block::bordered();
         let block = block.border_style(cx.editor.theme.get("ui.window"));
 
@@ -1113,14 +1113,14 @@ impl<I: 'static + Send + Sync, D: 'static + Send + Sync> Component for Picker<I,
                     return close_fn(self);
                 }
             }
-            // unruly changed to h
+            // NOTE: (slugbyte) changed to h
             ctrl!('h') => {
                 if let Some(option) = self.selection() {
                     (self.callback_fn)(ctx, option, Action::HorizontalSplit);
                 }
                 return close_fn(self);
             }
-            // unruly changed to s
+            // NOTE: (slugbyte) changed to s
             ctrl!('s') => {
                 if let Some(option) = self.selection() {
                     (self.callback_fn)(ctx, option, Action::VerticalSplit);

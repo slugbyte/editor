@@ -1532,7 +1532,7 @@ fn find_char_line_ending(
         }
     });
     {
-        // unruly added push_jump to find_char_line_ending
+        // NOTE: (slugbyte) added push_jump to find_char_line_ending
         push_jump(view, doc);
     }
     doc.set_selection(view.id, selection);
@@ -1616,7 +1616,7 @@ fn find_char_impl<F, M: CharMatcher + Clone + Copy>(
         })
     });
     {
-        // unruly added push_jump to find_char_impl
+        //NOTE: (slugbyte) added push_jump to find_char_impl
         push_jump(view, doc);
     }
     doc.set_selection(view.id, selection);
@@ -3887,7 +3887,7 @@ fn goto_last_modification(cx: &mut Context) {
             .clone()
             .transform(|range| range.put_cursor(text, pos, cx.editor.mode == Mode::Select));
         {
-            // unruly added push_jump to goto_last_modification
+            //NOTE: (slugbyte) added push_jump to goto_last_modification
             push_jump(view, doc);
         }
         doc.set_selection(view.id, selection);
@@ -3942,7 +3942,7 @@ fn goto_first_diag(cx: &mut Context) {
         None => return,
     };
     {
-        // unruly added push_jump to goto_first_diag
+        //NOTE: (slugbyte) added push_jump to goto_first_diag
         push_jump(view, doc)
     }
     doc.set_selection(view.id, selection);
@@ -3953,7 +3953,7 @@ fn goto_first_diag(cx: &mut Context) {
 fn goto_last_diag(cx: &mut Context) {
     let (view, doc) = current!(cx.editor);
     {
-        // unruly added push jump to goto_last_diag
+        //NOTE: (slugbyte) added push jump to goto_last_diag
         push_jump(view, doc)
     }
     let selection = match doc.diagnostics().last() {
@@ -3984,7 +3984,7 @@ fn goto_next_diag(cx: &mut Context) {
             None => return,
         };
         {
-            // unruly added push_jump to goto_next_diag
+            //NOTE: (slugbyte) added push_jump to goto_next_diag
             push_jump(view, doc);
         }
         doc.set_selection(view.id, selection);
@@ -4017,7 +4017,7 @@ fn goto_prev_diag(cx: &mut Context) {
             None => return,
         };
         {
-            // unruly added push_jump to goto_prev_diag
+            //NOTE: (slugbyte) added push_jump to goto_prev_diag
             push_jump(view, doc);
         }
         doc.set_selection(view.id, selection);
@@ -4052,7 +4052,7 @@ fn goto_first_change_impl(cx: &mut Context, reverse: bool) {
         if hunk != Hunk::NONE {
             let range = hunk_range(hunk, doc.text().slice(..));
             {
-                // unruly added push_jump to goto_first_change_impl
+                //NOTE: (slugbyte) added push_jump to goto_first_change_impl
                 push_jump(view, doc);
             }
             doc.set_selection(view.id, Selection::single(range.anchor, range.head));
@@ -4110,7 +4110,7 @@ fn goto_next_change_impl(cx: &mut Context, direction: Direction) {
             }
         });
         {
-            // unruly added push_jump to goto_next_change_impl
+            //NOTE: (slugbyte) added push_jump to goto_next_change_impl
             push_jump(view, doc)
         }
         doc.set_selection(view.id, selection)
@@ -5878,7 +5878,7 @@ fn goto_ts_object_impl(cx: &mut Context, object: &'static str, direction: Direct
                 }
             });
             {
-                // unruly added push_jump to goto_ts_object_impl
+                //NOTE: (slugbyte) added push_jump to goto_ts_object_impl
                 push_jump(view, doc)
             }
             doc.set_selection(view.id, selection);
@@ -6783,7 +6783,7 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
 
     let jump_label_limit = alphabet.len() * alphabet.len();
     let mut words = Vec::with_capacity(jump_label_limit);
-    let (view, doc) = current!(cx.editor); // unruly changed current_ref! to current!
+    let (view, doc) = current!(cx.editor); //NOTE: (slugbyte) changed current_ref! to current!
     let text = doc.text().slice(..);
 
     // This is not necessarily exact if there is virtual text like soft wrap.
@@ -6869,7 +6869,7 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
         }
     }
     {
-        // unruly added push jump to jump_to_word
+        //NOTE: (slugbyte) added push jump to jump_to_word
         push_jump(view, doc)
     }
     jump_to_label(cx, words, behaviour)

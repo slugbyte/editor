@@ -848,7 +848,7 @@ impl Display for ApplyEditErrorKind {
 /// Precondition: `locations` should be non-empty.
 fn goto_impl(editor: &mut Editor, compositor: &mut Compositor, locations: Vec<Location>) {
     let cwdir = helix_stdx::env::current_working_dir();
-    // unruly goto_impl added push  jump
+    // NOTE: (slugbyte) goto_impl added push  jump
     match locations.as_slice() {
         [location] => {
             jump_to_location(editor, location, Action::Replace);
@@ -882,9 +882,9 @@ where
     P: Fn(&Client, lsp::Position, lsp::TextDocumentIdentifier) -> Option<F>,
     F: Future<Output = helix_lsp::Result<Option<lsp::GotoDefinitionResponse>>> + 'static + Send,
 {
-    let (view, doc) = current!(cx.editor); // unruly changed current_ref! to current! for later push jump
+    let (view, doc) = current!(cx.editor); // NOTE: (slugbyte) changed current_ref! to current! for later push jump
     {
-        // unruly goto_single_impl should push to jump list
+        // NOTE: (slugbyte) goto_single_impl should push to jump list
         push_jump(view, doc);
     }
 
