@@ -1,3 +1,7 @@
+ifndef user
+$(error $$user environment variable is not set)
+endif
+
 DATE := $(shell date +%Y%m%d-%H%M%S)
 INSTALL_DIR_SYSTEM := /usr/bin
 INSTALL_PATH_SYSTEM := ${INSTALL_DIR_SYSTEM}/e
@@ -21,7 +25,7 @@ release:
 install-user: release
 	mkdir -p ${INSTALL_DIR_USER}
 	cp target/release/e ${INSTALL_PATH_USER}
-	[ -f ${LINK_PATH_USER} ] && mv --force ${LINK_PATH_USER} ${LINK_PATH_USER}-last || true
+	[ -L ${LINK_PATH_USER} ] && mv --force ${LINK_PATH_USER} ${LINK_PATH_USER}-last || true
 	ln -sf ${INSTALL_PATH_USER} ${LINK_PATH_USER}
 
 # install a release build into /usr/bin

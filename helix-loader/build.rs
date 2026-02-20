@@ -17,7 +17,7 @@ fn main() {
 
     // NOTE: (slugbyte) added build_date
     let build_date = Command::new("date")
-        .args(["+%Y-%m-%d %H:%M"])
+        .args(["+%Y-%m-%d"])
         .output()
         .ok()
         .filter(|output| output.status.success())
@@ -37,7 +37,9 @@ fn main() {
     };
 
     let version: Cow<_> = match (&git_hash, &build_date) {
-        (Some(git_hash), Some(date)) => format!("{} ({}) {} :)", calver, &git_hash[..8], date).into(),
+        (Some(git_hash), Some(date)) => {
+            format!("{} ({}) {} :)", calver, &git_hash[..8], date).into()
+        }
         (Some(git_hash), None) => format!("{} ({})", calver, &git_hash[..8]).into(),
         _ => calver.into(),
     };
