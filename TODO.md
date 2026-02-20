@@ -5,6 +5,7 @@
 * a picker to spellcheck
 * [add picker to search_buffer](https://github.com/helix-editor/helix/pull/13053/files)
 * [add :index command](https://github.com/helix-editor/helix/pull/13354)
+* move push_jump for jump_to_word into jump_to_label's inner on_next_key callback so it only fires when the user actually selects a valid jump label
 
 ## thinks i think should be fixed in upstream
 ### fix what highlights are buing used 

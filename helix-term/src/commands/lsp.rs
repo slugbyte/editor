@@ -882,11 +882,7 @@ where
     P: Fn(&Client, lsp::Position, lsp::TextDocumentIdentifier) -> Option<F>,
     F: Future<Output = helix_lsp::Result<Option<lsp::GotoDefinitionResponse>>> + 'static + Send,
 {
-    let (view, doc) = current!(cx.editor); // NOTE: (slugbyte) changed current_ref! to current! for later push jump
-    {
-        // NOTE: (slugbyte) goto_single_impl should push to jump list
-        push_jump(view, doc);
-    }
+    let (view, doc) = current_ref!(cx.editor);
 
     let mut futures: FuturesOrdered<_> = doc
         .language_servers_with_feature(feature)

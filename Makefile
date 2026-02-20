@@ -17,14 +17,14 @@ release:
 	
 # install a dated release build into $user/share/slugbyte/build/editor
 # make a link to the new release in $user/bin
-# make a backup of the previoush release link called e-last
+# make a backup of the previous release link called e-last
 install-user: release
 	mkdir -p ${INSTALL_DIR_USER}
 	cp target/release/e ${INSTALL_PATH_USER}
 	[ -f ${LINK_PATH_USER} ] && mv --force ${LINK_PATH_USER} ${LINK_PATH_USER}-last || true
 	ln -sf ${INSTALL_PATH_USER} ${LINK_PATH_USER}
 
-# install a relase build into /usr/bin
+# install a release build into /usr/bin
 install-sys: release
 	sudo cp -f target/release/e ${INSTALL_PATH_SYSTEM}
 	sudo chmod a+x ${INSTALL_PATH_SYSTEM}

@@ -3952,14 +3952,14 @@ fn goto_first_diag(cx: &mut Context) {
 
 fn goto_last_diag(cx: &mut Context) {
     let (view, doc) = current!(cx.editor);
-    {
-        //NOTE: (slugbyte) added push jump to goto_last_diag
-        push_jump(view, doc)
-    }
     let selection = match doc.diagnostics().last() {
         Some(diag) => Selection::single(diag.range.start, diag.range.end),
         None => return,
     };
+    {
+        //NOTE: (slugbyte) added push_jump to goto_last_diag
+        push_jump(view, doc)
+    }
     doc.set_selection(view.id, selection);
     view.diagnostics_handler
         .immediately_show_diagnostic(doc, view.id);
@@ -4080,7 +4080,8 @@ fn goto_next_change_impl(cx: &mut Context, direction: Direction) {
             return;
         };
 
-        let selection = doc.selection(view.id).clone().transform(|range| {
+        let old_selection = doc.selection(view.id).clone();
+        let selection = old_selection.clone().transform(|range| {
             let cursor_line = range.cursor_line(doc_text) as u32;
 
             let diff = diff_handle.load();
@@ -4109,9 +4110,9 @@ fn goto_next_change_impl(cx: &mut Context, direction: Direction) {
                 new_range.with_direction(direction)
             }
         });
-        {
+        if selection != old_selection {
             //NOTE: (slugbyte) added push_jump to goto_next_change_impl
-            push_jump(view, doc)
+            push_jump(view, doc);
         }
         doc.set_selection(view.id, selection)
     };
@@ -5860,7 +5861,8 @@ fn goto_ts_object_impl(cx: &mut Context, object: &'static str, direction: Direct
             let text = doc.text().slice(..);
             let root = syntax.tree().root_node();
 
-            let selection = doc.selection(view.id).clone().transform(|range| {
+            let old_selection = doc.selection(view.id).clone();
+            let selection = old_selection.clone().transform(|range| {
                 let new_range = movement::goto_treesitter_object(
                     text, range, object, direction, &root, syntax, &loader, count,
                 );
@@ -5877,9 +5879,9 @@ fn goto_ts_object_impl(cx: &mut Context, object: &'static str, direction: Direct
                     new_range.with_direction(direction)
                 }
             });
-            {
+            if selection != old_selection {
                 //NOTE: (slugbyte) added push_jump to goto_ts_object_impl
-                push_jump(view, doc)
+                push_jump(view, doc);
             }
             doc.set_selection(view.id, selection);
         } else {
@@ -6783,7 +6785,7 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
 
     let jump_label_limit = alphabet.len() * alphabet.len();
     let mut words = Vec::with_capacity(jump_label_limit);
-    let (view, doc) = current!(cx.editor); //NOTE: (slugbyte) changed current_ref! to current!
+    let (view, doc) = current_ref!(cx.editor);
     let text = doc.text().slice(..);
 
     // This is not necessarily exact if there is virtual text like soft wrap.
@@ -6868,9 +6870,7 @@ fn jump_to_word(cx: &mut Context, behaviour: Movement) {
             break;
         }
     }
-    {
-        //NOTE: (slugbyte) added push jump to jump_to_word
-        push_jump(view, doc)
-    }
+    // TODO: move push_jump into jump_to_label's inner on_next_key callback
+    // so it only fires when the user actually selects a valid jump label
     jump_to_label(cx, words, behaviour)
 }

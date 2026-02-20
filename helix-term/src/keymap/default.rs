@@ -176,7 +176,7 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         // "A-K" => remove_selections,
 
         "esc"  => unruly_normal_mode_or_keep_primary_selection,
-        // "esc" => norkeep_primary_selection,
+        // "esc" => normal_mode,
         "C-esc" => keep_selections,
         "backspace" => remove_primary_selection,
         "C-backspace" => remove_selections,
@@ -338,12 +338,12 @@ pub fn default() -> HashMap<Mode, KeyTrie> {
         "o" | "right" => extend_char_right,
 
         "w" => extend_next_word_start,
-        "W" => extend_prev_word_start,
-        "b" => extend_next_long_word_start,
+        "W" => extend_next_long_word_start,
+        "b" => extend_prev_word_start,
         "B" => extend_prev_long_word_start,
 
-        // "e" => extend_next_word_end,
-        // "E" => extend_next_long_word_end,
+        "N" => extend_next_word_end,
+        "E" => extend_next_long_word_end,
         // "A-e" => extend_parent_node_end,
         // "A-b" => extend_parent_node_start,
 

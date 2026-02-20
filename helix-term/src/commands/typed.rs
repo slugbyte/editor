@@ -4,7 +4,7 @@ use std::env;
 use std::fmt::Write;
 use std::io::BufReader;
 use std::ops::{self, Deref};
-use std::str::FromStr;
+
 
 use crate::job::Job;
 
@@ -804,6 +804,7 @@ pub fn write_all_impl(
         })
         .collect();
 
+    let had_saves = !saves.is_empty();
     for (doc_id, target_view) in saves {
         let doc = doc_mut!(cx.editor, &doc_id);
         let view = view_mut!(cx.editor, target_view);
@@ -846,9 +847,9 @@ pub fn write_all_impl(
         bail!("{:?}", errors);
     }
 
-    // let mut rng = rand::rng();
-    // let n: i32 = rng.random_range(0..100); // 0 through 9
-    cx.editor.set_status(format!("{}", random_face()));
+    if had_saves {
+        cx.editor.set_status(random_face().to_string());
+    }
 
     Ok(())
 }
@@ -959,8 +960,7 @@ fn random_face() -> &'static str {
     ];
 
     let mut rng = rand::rng();
-    return FACES.choose(&mut rng).unwrap();
-    // FACES.choose(&mut rng).unwrap()
+    FACES.choose(&mut rng).unwrap()
 }
 
 fn write_all(cx: &mut compositor::Context, args: Args, event: PromptEvent) -> anyhow::Result<()> {
@@ -2676,7 +2676,7 @@ fn rename_buffer(
         .path()
         .context("Scratch buffer cannot be renamed. Use :write instead")?
         .clone();
-    let new_name = args.first().unwrap();
+    let new_name = args.first().context("new name is required")?;
 
     if new_name.is_empty() {
         bail!("new name cannot be empty");
@@ -2691,8 +2691,8 @@ fn rename_buffer(
 
     if new_path.exists() {
         bail!(
-            "failed to rename: {} allready exists",
-            new_path.to_str().unwrap()
+            "failed to rename: {} already exists",
+            new_path.display()
         );
     }
 
@@ -2707,7 +2707,6 @@ fn trash_buffer(
     args: Args,
     event: PromptEvent,
 ) -> anyhow::Result<()> {
-    _ = args;
     if event != PromptEvent::Validate {
         return Ok(());
     }
@@ -2718,30 +2717,42 @@ fn trash_buffer(
         .context("Scratch buffer cannot be removed.")?
         .clone();
 
+    let trash_dir = env::var("trash").unwrap_or_else(|_| {
+        let home = home_dir().unwrap_or_else(|_| PathBuf::from("/tmp"));
+        home.join(".local/share/Trash/files")
+            .to_string_lossy()
+            .into_owned()
+    });
+    let trash_dir = PathBuf::from(&trash_dir);
+    if !trash_dir.exists() {
+        bail!(
+            "trash directory does not exist: {}",
+            trash_dir.display()
+        );
+    }
+
     let now = chrono::Local::now();
-    let file_name = old_path.file_name().unwrap().to_str();
+    let file_name = old_path
+        .file_name()
+        .context("buffer path has no filename")?
+        .to_string_lossy();
 
-    let mut trash_path = PathBuf::from_str(format!("{}/temp", env!("trash")).as_str()).unwrap();
-    trash_path.set_file_name(format!(
-        "trash_helix_{}__{}",
-        now.format("%Y%m%d%H%M%S"),
-        file_name.unwrap(),
-    ));
-
-    let cwd = env::current_dir().unwrap();
-    let old_path_relative = old_path.strip_prefix(&cwd).unwrap_or(&trash_path);
-
-    cx.editor.set_status(format!(
-        "trashed: {} -> $trash/{}",
-        old_path_relative.to_string_lossy(),
-        trash_path.file_name().unwrap().to_str().unwrap(),
-    ));
+    let trash_name = format!("trash_helix_{}__{}", now.format("%Y%m%d%H%M%S"), file_name);
+    let trash_path = trash_dir.join(&trash_name);
 
     if let Err(err) = cx.editor.move_path(&old_path, trash_path.as_ref()) {
         bail!("Could not move file to trash: {err}");
     }
 
-    return buffer_close(cx, args, event);
+    let cwd = env::current_dir().unwrap_or_default();
+    let old_path_relative = old_path.strip_prefix(&cwd).unwrap_or(&old_path);
+    cx.editor.set_status(format!(
+        "trashed: {} -> $trash/{}",
+        old_path_relative.to_string_lossy(),
+        trash_name,
+    ));
+
+    buffer_close(cx, args, event)
 }
 
 fn yank_diagnostic(
@@ -3833,7 +3844,7 @@ pub const TYPABLE_COMMAND_LIST: &[TypableCommand] = &[
         aliases: &["delete"],
         doc: "trash the current buffer",
         fun: trash_buffer,
-        completer: CommandCompleter::positional(&[completers::filename]),
+        completer: CommandCompleter::none(),
         signature: Signature {
             positionals: (0, Some(0)),
             ..Signature::DEFAULT

@@ -120,12 +120,12 @@ pub fn diff<'doc>(
                 }
 
                 let (icon, style) = if hunk.is_pure_insertion() {
-                    ("+", added) // NOTE: (slugbyte) swithed diff plus icon // old == ("▍", modified)
+                    ("+", added) // NOTE: (slugbyte) switched diff plus icon // old == ("▍", added)
                 } else if hunk.is_pure_removal() {
                     if !first_visual_line {
                         return None;
                     }
-                    ("-", deleted) // NOTE: (slugbyte) switched diif minus icon // old == ("▔", deleted)
+                    ("-", deleted) // NOTE: (slugbyte) switched diff minus icon // old == ("▔", deleted)
                 } else {
                     ("~", modified) // NOTE: (slugbyte) switched diff mod icon // old == ("▍", modified)
                 };
@@ -265,7 +265,7 @@ pub fn breakpoints<'doc>(
             };
 
             // let sym = if breakpoint.verified { "●" } else { "◯" };
-            let sym = if breakpoint.verified { "*" } else { "?" }; // NOTE: (slugbyte) changed breakpint sympls let sym = if breakpoint.verified { "●" } else { "◯" };
+            let sym = if breakpoint.verified { "*" } else { "?" }; // NOTE: (slugbyte) changed breakpoint symbols from { "●" } else { "◯" };
             write!(out, "{}", sym).unwrap();
             Some(style)
         },
