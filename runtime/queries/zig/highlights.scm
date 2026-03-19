@@ -92,11 +92,14 @@
 (builtin_identifier) @function.builtin
 
 (call_expression
-  function: (identifier) @function)
+  function: (identifier) @function.call)
 
 (call_expression
   function: (field_expression
     member: (identifier) @function.method))
+
+; (method_declaration
+  ; name: (identifier) @function.method)
 
 (function_declaration
   name: (identifier) @function)

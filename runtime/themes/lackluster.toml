@@ -1,6 +1,3 @@
-# NOTE: (slugbyte) this is a my custom default theme based on my old nvim theme (https://github.com/slugbyte/lackluster.nvim)
-# lackluster theme
-
 "ui.background" = {bg = "main_background"}
 "ui.background.separator" = {bg = "main_background", fg = "gray5"}
 
@@ -31,7 +28,6 @@
 "ui.help" = {bg = "popup_background", fg = "gray6"} # description box for commands
 
 "ui.text" = {fg = "gray8"}
-# "ui.text.inactive" = {"fg" = "red"}
 "ui.text.focus" = {bg = "gray3"} # selected picker text
 "ui.text.info" = {fg = "gray8"} 
 "ui.text.directory" = {fg = "gray6"}
@@ -63,7 +59,7 @@
 "info" = {fg = "gray4"}
 "hint" = {fg = "green"}
 
-"ui.virtual.jump-label" = {bg = "gray7", fg = "gray2"}
+"ui.virtual.jump-label" = {fg = "yellow"}
 "special" = {fg = "gray6b"}
 
 # editing area
@@ -105,8 +101,8 @@
 "diff.delta" = {fg = "blue"}
 "diff.delta.conflict" = {fg = "yellow"}
 "diff.plus.gutter" = {fg = "gray4"}
-"diff.minus.gutter" = {fg = "gray4"}
-"diff.delta.gutter" = {fg = "gray4"}
+"diff.minus.gutter" = {fg = "red", modifiers = ["dim"]}
+"diff.delta.gutter" = {fg = "gray4", modifiers = ["dim"]}
 
 "markup.heading" = {fg = "gray5"}
 "markup.heading.1" = {fg = "gray6"}

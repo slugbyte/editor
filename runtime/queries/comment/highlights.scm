@@ -4,17 +4,17 @@
 
 ; Hint level tags
 ((tag (name) @hint)
- (#any-of? @hint "HINT" "MARK" "PASSED" "STUB" "MOCK" "TIP"))
+ (#any-of? @hint "HINT" "MARK" "PASSED" "STUB" "MOCK" "TODO" "NOTE" "DEBUG"))
 
 ("text" @hint
- (#any-of? @hint "HINT" "MARK" "PASSED" "STUB" "MOCK" "TIP"))
+ (#any-of? @hint "HINT" "MARK" "PASSED" "STUB" "MOCK" "TODO" "NOTE" "DEBUG"))
 
 ; Info level tags
 ((tag (name) @info)
- (#any-of? @info "INFO" "NOTE" "TODO" "TO-DO" "PERF" "OPTIMIZE" "PERFORMANCE" "QUESTION" "ASK" "REVIEW" "PR" "CR"))
+ (#any-of? @info "INFO" "PERF" "OPTIMIZE" "PERFORMANCE" "QUESTION" "ASK"))
 
 ("text" @info
- (#any-of? @info "INFO" "NOTE" "TODO" "TO-DO" "PERF" "OPTIMIZE" "PERFORMANCE" "QUESTION" "ASK" "REVIEW" "PR" "CR"))
+ (#any-of? @info "INFO" "PERF" "OPTIMIZE" "PERFORMANCE" "QUESTION" "ASK"))
 
 ; Warning level tags
 ((tag (name) @warning)
@@ -25,10 +25,10 @@
 
 ; Error level tags
 ((tag (name) @error)
- (#any-of? @error "BUG" "FIXME" "ISSUE" "XXX" "FIX" "SAFETY" "FIXIT" "FAILED" "DEBUG" "INVARIANT" "COMPLIANCE" "PANIC"))
+ (#any-of? @error "BUG" "FIXME" "ISSUE" "XXX" "FIX" "SAFETY" "FIXIT" "FAILED" "INVARIANT" "COMPLIANCE"))
 
 ("text" @error
- (#any-of? @error "BUG" "FIXME" "ISSUE" "XXX" "FIX" "SAFETY" "FIXIT" "FAILED" "DEBUG" "INVARIANT" "COMPLIANCE" "PANIC"))
+ (#any-of? @error "BUG" "FIXME" "ISSUE" "XXX" "FIX" "SAFETY" "FIXIT" "FAILED" "INVARIANT" "COMPLIANCE"))
 
 ; Issue number (#123)
 ("text" @constant.numeric

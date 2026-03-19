@@ -5,6 +5,7 @@ use std::ops::{self, Deref};
 use std::str::FromStr;
 
 use crate::job::Job;
+use rand::seq::IndexedRandom;
 
 use super::*;
 
@@ -842,6 +843,7 @@ pub fn write_all_impl(
             Some((id, target_view))
         })
         .collect();
+    let had_saves = !saves.is_empty();
 
     for (doc_id, target_view) in saves {
         let doc = doc_mut!(cx.editor, &doc_id);
@@ -885,7 +887,29 @@ pub fn write_all_impl(
         bail!("{:?}", errors);
     }
 
+    if had_saves {
+        cx.editor.set_status(random_face().to_string());
+    }
+
     Ok(())
+}
+
+fn random_face() -> &'static str {
+    const FACES: &[&str] = &[
+        ":)",
+        ":D",
+        "^_^",
+        "(>^_^<)",
+        "(=^.^=)",
+        "(o_o)",
+        "(._.)",
+        "(T_T)",
+        "(\"_\")",
+        "<3",
+    ];
+
+    let mut rng = rand::rng();
+    FACES.choose(&mut rng).unwrap_or(&":)")
 }
 
 fn write_all(cx: &mut compositor::Context, args: Args, event: PromptEvent) -> anyhow::Result<()> {

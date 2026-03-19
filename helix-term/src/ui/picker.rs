@@ -277,7 +277,10 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         editor_data: D,
     ) -> (Nucleo<T>, Injector<T, D>) {
         let columns: Arc<[_]> = columns.into_iter().collect();
-        let matcher_columns = columns.iter().filter(|col| col.filter).count() as u32;
+        let matcher_columns = columns
+            .iter()
+            .filter(|col: &&Column<T, D>| col.filter)
+            .count() as u32;
         assert!(matcher_columns > 0);
         let matcher = Nucleo::new(
             Config::DEFAULT,
@@ -309,10 +312,7 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         F: Fn(&mut Context, &T, Action) + 'static,
     {
         let columns: Arc<[_]> = columns.into_iter().collect();
-        let matcher_columns = columns
-            .iter()
-            .filter(|col: &&Column<T, D>| col.filter)
-            .count() as u32;
+        let matcher_columns = columns.iter().filter(|col| col.filter).count() as u32;
         assert!(matcher_columns > 0);
         let matcher = Nucleo::new(
             Config::DEFAULT,
@@ -613,12 +613,8 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
                             let files = super::directory_content(&path, editor)?;
                             let file_names: Vec<_> = files
                                 .iter()
-                                .filter_map(|(file_path, is_dir)| {
-                                    let name = file_path
-                                        .strip_prefix(&path)
-                                        .map(|p| Some(p.as_os_str()))
-                                        .unwrap_or_else(|_| file_path.file_name())?
-                                        .to_string_lossy();
+                                .filter_map(|(path, is_dir)| {
+                                    let name = path.file_name()?.to_string_lossy();
                                     if *is_dir {
                                         Some((format!("{}/", name), true))
                                     } else {
@@ -699,12 +695,14 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         let background = cx.editor.theme.get("ui.background");
         surface.clear_with(area, background);
 
-        const BLOCK: Block<'_> = Block::bordered();
+        // NOTE: (slugbyte) this used to be just a const BLOCK but i wanted border_style to be ui.window (render_picker)
+        let block: Block<'_> = Block::bordered();
+        let block = block.border_style(cx.editor.theme.get("ui.window"));
 
         // calculate the inner area inside the box
-        let inner = BLOCK.inner(area);
+        let inner = block.inner(area);
 
-        BLOCK.render(area, surface);
+        block.render(area, surface);
 
         // -- Render the input bar:
 
@@ -888,19 +886,21 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
         let directory = cx.editor.theme.get("ui.text.directory");
         surface.clear_with(area, background);
 
-        const BLOCK: Block<'_> = Block::bordered();
+        // NOTE: (slugbyte) fix this used to be just a const BLOCK but i wanted border_style to be ui.window (picker_preview)
+        let block: Block<'_> = Block::bordered();
+        let block = block.border_style(cx.editor.theme.get("ui.window"));
 
         // calculate the inner area inside the box
-        let inner = BLOCK.inner(area);
+        let inner = block.inner(area);
         // 1 column gap on either side
         let margin = Margin::horizontal(1);
         let inner = inner.inner(margin);
-        BLOCK.render(area, surface);
+        block.render(area, surface);
 
         if let Some((preview, range)) = self.get_preview(cx.editor) {
             let doc = match preview.document() {
                 Some(doc)
-                    if range.is_none_or(|(start, end)| {
+                    if range.map_or(true, |(start, end)| {
                         start <= end && end <= doc.text().len_lines()
                     }) =>
                 {
@@ -959,26 +959,10 @@ impl<T: 'static + Send + Sync, D: 'static + Send + Sync> Picker<T, D> {
             }
 
             let loader = cx.editor.syn_loader.load();
-            let config = cx.editor.config();
 
             let syntax_highlighter =
                 EditorView::doc_syntax_highlighter(doc, offset.anchor, area.height, &loader);
             let mut overlay_highlights = Vec::new();
-            if doc
-                .language_config()
-                .and_then(|config| config.rainbow_brackets)
-                .unwrap_or(config.rainbow_brackets)
-            {
-                if let Some(overlay) = EditorView::doc_rainbow_highlights(
-                    doc,
-                    offset.anchor,
-                    area.height,
-                    &cx.editor.theme,
-                    &loader,
-                ) {
-                    overlay_highlights.push(overlay);
-                }
-            }
 
             EditorView::doc_diagnostics_highlights_into(
                 doc,
@@ -1064,23 +1048,23 @@ impl<I: 'static + Send + Sync, D: 'static + Send + Sync> Component for Picker<I,
         let close_fn = |picker: &mut Self| {
             // if the picker is very large don't store it as last_picker to avoid
             // excessive memory consumption
-            let callback: compositor::Callback =
-                if picker.matcher.snapshot().item_count() > 1_000_000 {
-                    Box::new(|compositor: &mut Compositor, _ctx| {
-                        // remove the layer
-                        compositor.pop();
-                    })
-                } else {
-                    // stop streaming in new items in the background, really we should
-                    // be restarting the stream somehow once the picker gets
-                    // reopened instead (like for an FS crawl) that would also remove the
-                    // need for the special case above but that is pretty tricky
-                    picker.version.fetch_add(1, atomic::Ordering::Relaxed);
-                    Box::new(|compositor: &mut Compositor, _ctx| {
-                        // remove the layer
-                        compositor.last_picker = compositor.pop();
-                    })
-                };
+            let callback: compositor::Callback = if picker.matcher.snapshot().item_count() > 100_000
+            {
+                Box::new(|compositor: &mut Compositor, _ctx| {
+                    // remove the layer
+                    compositor.pop();
+                })
+            } else {
+                // stop streaming in new items in the background, really we should
+                // be restarting the stream somehow once the picker gets
+                // reopened instead (like for an FS crawl) that would also remove the
+                // need for the special case above but that is pretty tricky
+                picker.version.fetch_add(1, atomic::Ordering::Relaxed);
+                Box::new(|compositor: &mut Compositor, _ctx| {
+                    // remove the layer
+                    compositor.last_picker = compositor.pop();
+                })
+            };
             EventResult::Consumed(Some(callback))
         };
 
@@ -1144,13 +1128,15 @@ impl<I: 'static + Send + Sync, D: 'static + Send + Sync> Component for Picker<I,
                     return close_fn(self);
                 }
             }
-            ctrl!('s') => {
+            // NOTE: (slugbyte) changed to h
+            ctrl!('h') => {
                 if let Some(option) = self.selection() {
                     (self.callback_fn)(ctx, option, Action::HorizontalSplit);
                 }
                 return close_fn(self);
             }
-            ctrl!('v') => {
+            // NOTE: (slugbyte) changed to s
+            ctrl!('s') => {
                 if let Some(option) = self.selection() {
                     (self.callback_fn)(ctx, option, Action::VerticalSplit);
                 }
